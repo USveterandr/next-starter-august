@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-x-hidden">
+  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-x-hidden safe-area-pb">
       {/* Mobile-First Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200/50 shadow-lg">
+  <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/50 shadow-lg safe-area-px safe-area-pt">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 lg:h-20">
             {/* Logo */}
@@ -63,7 +63,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-20 lg:pt-32 pb-12 lg:pb-20 relative">
+  <section className="pt-20 lg:pt-32 pb-12 lg:pb-20 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 to-amber-50/50 pointer-events-none"></div>
         <div className="absolute top-20 right-10 w-72 h-72 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl pointer-events-none"></div>
@@ -130,8 +130,8 @@ export default function Home() {
                 { number: "98%", label: "Satisfacción" },
                 { number: "15", label: "Ciudades" },
                 { number: "24/7", label: "Soporte" }
-              ].map((stat, index) => (
-                <div key={index} className="text-center group">
+              ].map((stat) => (
+                <div key={stat.label} className="text-center group">
                   <div className="text-2xl lg:text-4xl font-bold text-amber-600 mb-2 group-hover:scale-110 transition-transform duration-300">
                     {stat.number}
                   </div>
@@ -167,8 +167,8 @@ export default function Home() {
               { id: 6, title: "Residencia Luxury", location: "La Romana", price: "$1.5M", rooms: 6, baths: 5, area: "550 m²" }
             ].map((property) => (
               <div key={property.id} className="bg-white/90 backdrop-blur-xl rounded-2xl lg:rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-slate-200/50 group">
-                <div className="h-48 sm:h-56 lg:h-64 bg-gradient-to-br from-amber-100 via-yellow-200 to-amber-300 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div className="aspect-16-9 relative overflow-hidden rounded-b-2xl bg-gradient-to-br from-amber-100 via-yellow-200 to-amber-300">
+                  <div className="aspect-content bg-gradient-to-t from-black/50 to-transparent"></div>
                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-slate-800 flex items-center space-x-1">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                     <span>Disponible</span>
@@ -249,7 +249,7 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {[
+              {[
               {
                 icon: "👑",
                 title: "Asesoría Personalizada",
@@ -280,8 +280,8 @@ export default function Home() {
                 title: "Transacciones Seguras",
                 description: "Proceso legal completo y seguro con abogados especializados en bienes raíces internacionales"
               }
-            ].map((service, index) => (
-              <div key={index} className="bg-white/10 backdrop-blur-xl p-6 lg:p-8 rounded-2xl lg:rounded-3xl text-center hover:shadow-2xl transition-all duration-500 transform hover:scale-105 group border border-white/20">
+              ].map((service) => (
+              <div key={service.title} className="bg-white/10 backdrop-blur-xl p-6 lg:p-8 rounded-2xl lg:rounded-3xl text-center hover:shadow-2xl transition-all duration-500 transform hover:scale-105 group border border-white/20">
                 <div className="text-4xl lg:text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">
                   {service.icon}
                 </div>

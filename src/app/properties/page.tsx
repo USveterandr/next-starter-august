@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import LuxuryImage from '@/components/LuxuryImage';
 
 export default function PropertiesPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -269,11 +270,15 @@ export default function PropertiesPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProperties.map((property) => (
-              <div key={property.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <div key={property.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 luxury-border">
                 <div className="relative">
-                  <div className="bg-gray-200 border-2 border-dashed rounded-t-lg w-full h-48 flex items-center justify-center">
-                    <span className="text-gray-500">Property Image</span>
-                  </div>
+                  <LuxuryImage
+                    src={property.image || '/property-placeholder.svg'}
+                    alt={`${property.title} - ${property.location}`}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    aspect="16-9"
+                    className="rounded-t-lg"
+                  />
                   {property.featured && (
                     <div className="absolute top-2 left-2 bg-gold text-white text-xs font-bold px-2 py-1 rounded">
                       FEATURED
@@ -316,42 +321,43 @@ export default function PropertiesPage() {
         {/* Pagination */}
         <div className="mt-8 flex justify-center">
           <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-            <a
-              href="#"
+            <Link
+              href="/properties?page=1"
+              aria-label="Previous page"
               className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
-              <span className="sr-only">Previous</span>
               <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/properties?page=1"
               className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gold"
+              aria-current="page"
             >
               1
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/properties?page=2"
               className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               2
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/properties?page=3"
               className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               3
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/properties?page=2"
+              aria-label="Next page"
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
-              <span className="sr-only">Next</span>
               <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
               </svg>
-            </a>
+            </Link>
           </nav>
         </div>
       </main>

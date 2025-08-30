@@ -128,15 +128,14 @@ export default function PropertyDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Property Images */}
           <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-              <div className="bg-gray-200 border-2 border-dashed w-full h-96 flex items-center justify-center">
-                <span className="text-gray-500">Main Property Image</span>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden luxury-border">
+              <div className="rounded-t-lg overflow-hidden aspect-16-9">
+                <div className="aspect-content skeleton"></div>
               </div>
-              
               <div className="grid grid-cols-4 gap-2 p-4">
                 {[1, 2, 3, 4].map((item) => (
-                  <div key={item} className="bg-gray-200 border-2 border-dashed rounded w-full h-24 flex items-center justify-center">
-                    <span className="text-gray-500 text-xs">Image {item}</span>
+                  <div key={item} className="rounded overflow-hidden aspect-square">
+                    <div className="aspect-content skeleton"></div>
                   </div>
                 ))}
               </div>
