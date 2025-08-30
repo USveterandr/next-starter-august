@@ -327,7 +327,7 @@ export default function SearchPage() {
             <div className="px-6 py-8">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Post Your Requirements</h2>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Tell us what you're looking for and we'll notify you when matching properties are listed.
+                Tell us what you&apos;re looking for and we&apos;ll notify you when matching properties are listed.
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">

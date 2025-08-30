@@ -36,7 +36,7 @@ export default function SignUpSuccessPage() {
               </div>
               <div className="ml-3 flex-1 md:flex md:justify-between">
                 <p className="text-sm text-blue-700 dark:text-blue-300">
-                  Please check your email to verify your account. You won't be able to access all features until verification is complete.
+                  Please check your email to verify your account. You won&apos;t be able to access all features until verification is complete.
                 </p>
               </div>
             </div>
