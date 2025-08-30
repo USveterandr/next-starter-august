@@ -315,13 +315,13 @@ export default function Home() {
                 La plataforma de bienes raíces más confiable y exclusiva de República Dominicana. Tu puerta al paraíso caribeño.
               </p>
               <div className="flex space-x-4">
-                <button className="w-10 h-10 bg-slate-700 hover:bg-amber-500 rounded-lg flex items-center justify-center transition-colors">
+                <button className="w-10 h-10 bg-slate-700 hover:bg-amber-500 rounded-lg flex items-center justify-center transition-colors" aria-label="Seguir en Facebook">
                   <span className="text-sm font-bold">f</span>
                 </button>
-                <button className="w-10 h-10 bg-slate-700 hover:bg-amber-500 rounded-lg flex items-center justify-center transition-colors">
+                <button className="w-10 h-10 bg-slate-700 hover:bg-amber-500 rounded-lg flex items-center justify-center transition-colors" aria-label="Seguir en Instagram">
                   <span className="text-sm font-bold">ig</span>
                 </button>
-                <button className="w-10 h-10 bg-slate-700 hover:bg-amber-500 rounded-lg flex items-center justify-center transition-colors">
+                <button className="w-10 h-10 bg-slate-700 hover:bg-amber-500 rounded-lg flex items-center justify-center transition-colors" aria-label="Seguir en Twitter">
                   <span className="text-sm font-bold">tw</span>
                 </button>
               </div>
