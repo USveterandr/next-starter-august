@@ -6,6 +6,40 @@ import { useState } from 'react';
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('overview');
 
+  // Expense state and management
+  const [expenses, setExpenses] = useState([
+    { id: 1, amount: 1200, description: 'Monthly Mortgage', date: '2023-10-01', category: 'mortgage' },
+    { id: 2, amount: 350, description: 'Car Payment', date: '2023-10-05', category: 'Car Loan' },
+  ]);
+
+  const [showAddExpenseForm, setShowAddExpenseForm] = useState(false);
+  const [newExpense, setNewExpense] = useState({ amount: '', description: '', date: '', category: 'Food' });
+
+  const expenseCategories = [
+    'Food', 'Transport', 'Utilities', 'Entertainment', 'Healthcare', 
+    'Shopping', 'Education', 'Travel', 'Other', 'mortgage', 'Car Loan', 
+    'Car Insurance', 'Bank Loan', 'Credit Card payment'
+  ];
+
+  const handleAddExpense = () => {
+    if (newExpense.amount && newExpense.description && newExpense.date && newExpense.category) {
+      const expenseToAdd = {
+        id: expenses.length > 0 ? Math.max(...expenses.map(e => e.id)) + 1 : 1,
+        amount: parseFloat(newExpense.amount),
+        description: newExpense.description,
+        date: newExpense.date,
+        category: newExpense.category,
+      };
+      setExpenses([...expenses, expenseToAdd]);
+      setNewExpense({ amount: '', description: '', date: '', category: 'Food' }); // Reset form
+      setShowAddExpenseForm(false); // Hide form
+    }
+  };
+
+  const handleDeleteExpense = (id: number) => {
+    setExpenses(expenses.filter(expense => expense.id !== id));
+  };
+
   // Mock data for dashboard
   const userData = {
     name: "John Doe",
@@ -81,6 +115,9 @@ export default function DashboardPage() {
                 <Link href="/dashboard" className="border-gold text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                   Dashboard
                 </Link>
+                <Link href="/expenses" className="border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 hover:text-gray-700 dark:hover:text-gray-200 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                  Expenses
+                </Link>
                 <Link href="/properties" className="border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 hover:text-gray-700 dark:hover:text-gray-200 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                   Properties
                 </Link>
@@ -134,6 +171,16 @@ export default function DashboardPage() {
               }`}
             >
               Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('expenses')}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'expenses'
+                  ? 'border-gold text-gold'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500'
+              }`}
+            >
+              Expenses
             </button>
             <button
               onClick={() => setActiveTab('properties')}
@@ -409,13 +456,169 @@ export default function DashboardPage() {
           </div>
         )}
 
+        {/* Expenses Tab */}
+        {activeTab === 'expenses' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">My Expenses</h2>
+              <button
+                onClick={() => setShowAddExpenseForm(!showAddExpenseForm)}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gold hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gold"
+              >
+                {showAddExpenseForm ? 'Cancel' : 'Add Expense'}
+              </button>
+            </div>
+
+            {showAddExpenseForm && (
+              <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg mb-8">
+                <div className="px-4 py-5 sm:p-6">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Add New Expense</h3>
+                  <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Amount ($)
+                      </label>
+                      <div className="mt-1">
+                        <input
+                          type="number"
+                          id="amount"
+                          name="amount"
+                          value={newExpense.amount}
+                          onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
+                          className="shadow-sm focus:ring-gold focus:border-gold block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                          placeholder="0.00"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Category
+                      </label>
+                      <div className="mt-1">
+                        <select
+                          id="category"
+                          name="category"
+                          value={newExpense.category}
+                          onChange={(e) => setNewExpense({ ...newExpense, category: e.target.value })}
+                          className="shadow-sm focus:ring-gold focus:border-gold block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                        >
+                          {expenseCategories.map((category) => (
+                            <option key={category} value={category}>{category}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Description
+                      </label>
+                      <div className="mt-1">
+                        <input
+                          type="text"
+                          id="description"
+                          name="description"
+                          value={newExpense.description}
+                          onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
+                          className="shadow-sm focus:ring-gold focus:border-gold block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                          placeholder="What is this expense for?"
+                        />
+                      </div>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label htmlFor="date" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Date
+                      </label>
+                      <div className="mt-1">
+                        <input
+                          type="date"
+                          id="date"
+                          name="date"
+                          value={newExpense.date}
+                          onChange={(e) => setNewExpense({ ...newExpense, date: e.target.value })}
+                          className="shadow-sm focus:ring-gold focus:border-gold block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-8">
+                    <button
+                      type="button"
+                      onClick={handleAddExpense}
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gold hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gold"
+                    >
+                      Add Expense
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md">
+              <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+                {expenses.length > 0 ? (
+                  expenses.map((expense) => (
+                    <li key={expense.id}>
+                      <div className="px-4 py-4 sm:px-6">
+                        <div className="flex items-center justify-between">
+                          <div className="min-w-0 flex-1 flex items-center">
+                            <div className="flex-shrink-0 bg-gold rounded-md p-3">
+                              <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0 flex-1 px-4">
+                              <p className="text-sm font-medium text-gold truncate">${expense.amount.toFixed(2)} - {expense.description}</p>
+                              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <span className="inline-flex items-center">
+                                  <svg className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                                  </svg>
+                                  {expense.date}
+                                </span>
+                                <span className="mx-2">•</span>
+                                <span className="inline-flex items-center">
+                                  <svg className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                                  </svg>
+                                  {expense.category}
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+                          <div className="ml-4 flex-shrink-0">
+                            <button
+                              onClick={() => handleDeleteExpense(expense.id)}
+                              className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 focus:outline-none"
+                            >
+                              <span className="sr-only">Delete</span>
+                              <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <li>
+                    <div className="px-4 py-4 sm:px-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                      No expenses recorded yet.
+                    </div>
+                  </li>
+                )}
+              </ul>
+            </div>
+          </div>
+        )}
+
         {/* Settings Tab */}
         {activeTab === 'settings' && (
           <div>
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Account Settings</h2>
             
             <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
-              <div className="px-4 py-5 sm:px-6">
+              <div className="px-4 py-5 sm:p-6">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">Profile Information</h3>
                 <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">
                   Update your personal information and preferences.
